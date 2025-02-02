@@ -32,8 +32,14 @@ Runs linting and fixes auto-fixable issues for all workspaces.
 ### `yarn type-check`
 Runs TypeScript type checking for all workspaces.
 
+### `yarn test`
+Runs tests for all workspaces.
+
 ### `yarn validate`
-Runs all validation checks (linting and type checking).
+Runs all code quality checks in sequence:
+- Linting: Ensures code follows style guidelines and catches potential errors
+- Type checking: Verifies TypeScript types are correct across all workspaces
+This command is useful before committing changes or as part of CI/CD pipelines.
 
 ## Individual Workspace Commands
 
@@ -42,13 +48,36 @@ You can run commands for individual workspaces using the workspace prefix:
 ```bash
 # Client commands
 yarn workspace client dev
-yarn workspace client test
+yarn workspace client build
+yarn workspace client lint
 yarn workspace client type-check
+yarn workspace client test           # Run tests once
+yarn workspace client test:coverage  # Run tests with coverage report
 
 # Server commands
 yarn workspace server dev
 yarn workspace server test
 yarn workspace server type-check
+```
+
+## Testing
+
+The project uses Vitest and React Testing Library for testing. The client application includes tests for:
+
+- Components: Testing rendering and interactions
+- Containers: Testing form submissions, API calls, and error handling
+- Utils: Testing helper functions
+
+To run tests in watch mode (useful during development):
+```bash
+cd client
+yarn test --watch
+```
+
+To generate a coverage report:
+```bash
+cd client
+yarn test:coverage
 ```
 
 ## Project Rules

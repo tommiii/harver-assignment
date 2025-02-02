@@ -12,6 +12,7 @@
     "lint": "yarn workspaces run lint",
     "lint:fix": "yarn workspaces run lint --fix",
     "type-check": "yarn workspaces run type-check",
+    "test": "yarn workspaces run test",
     "validate": "yarn lint && yarn type-check"
   },
   "devDependencies": {
