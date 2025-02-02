@@ -2,6 +2,7 @@ import React from "react";
 import { MatchCard } from "../../components/match-card/match-card";
 import styles from "./candidate-matcher.module.css";
 import { MatchOutput } from "../../types";
+import { downloadFileFromString, getMatchString } from "../../utils";
 
 export const CandidateMatcher = () => {
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
@@ -147,6 +148,19 @@ export const CandidateMatcher = () => {
 
         {matches.length > 0 && (
           <div className={styles.matchesContainer}>
+            <div className={styles.downloadContainer}>
+              <button
+                onClick={() => {
+                  const matchString = getMatchString(matches);
+                  downloadFileFromString(matchString);
+                }}
+                type="submit"
+                disabled={isLoading}
+                className={styles.submitButton}
+              >
+                Download Matches{" "}
+              </button>
+            </div>
             {matches.map((match, index) => (
               <MatchCard key={index} match={match} />
             ))}

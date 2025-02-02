@@ -1,5 +1,4 @@
 import React from "react";
-import clsx from "clsx";
 import { MatchOutput } from "../../types";
 
 import styles from "./match-card.module.css";
