@@ -3,6 +3,7 @@ import { MatchCard } from "../../components/match-card/match-card";
 import styles from "./candidate-matcher.module.css";
 import { MatchOutput } from "../../types";
 import { downloadFileFromString, getMatchString } from "../../utils";
+import config from "../../config";
 
 export const CandidateMatcher = () => {
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
@@ -39,7 +40,7 @@ export const CandidateMatcher = () => {
       const formData = new FormData();
       formData.append("file", selectedFile);
 
-      const response = await fetch("http://localhost:3000/api/match-engine", {
+      const response = await fetch(`${config.apiUrl}/match-engine`, {
         method: "POST",
         body: formData,
       });

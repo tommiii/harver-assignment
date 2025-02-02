@@ -2,6 +2,29 @@
 
 A system that matches candidates to job vacancies based on their module scores and application timing.
 
+## Project Structure
+
+```
+.
+├── client/                 # Frontend React application
+│   ├── src/               # Source files
+│   ├── dist/              # Build output
+│   ├── .env.example       # Example environment variables
+│   └── .env              # Local environment variables (not in git)
+├── server/                # Backend Node.js application
+│   ├── src/              # Source files
+│   ├── dist/             # Build output
+│   ├── .env.example      # Example environment variables
+│   └── .env              # Local environment variables (not in git)
+└── package.json          # Root package.json for workspaces
+```
+
+## Prerequisites
+
+- Node.js (v18 or higher)
+- Yarn package manager
+- Git
+
 ## Setup
 
 1. Install dependencies:
@@ -9,9 +32,30 @@ A system that matches candidates to job vacancies based on their module scores a
 yarn install
 ```
 
-This will install dependencies for both client and server applications.
+2. Set up environment variables:
+```bash
+# In client directory
+cp .env.example .env
 
-## Available Scripts
+# In server directory
+cp .env.example .env
+```
+
+### Environment Variables
+
+#### Client
+- `VITE_API_URL`: The base URL for the API (default: http://localhost:3000/api)
+
+#### Server
+- `PORT`: The port number for the server (default: 3000)
+- `CORS_ORIGIN`: Allowed origin for CORS (default: http://localhost:5173)
+- `MAX_FILE_SIZE`: Maximum file upload size in bytes (default: 5MB)
+
+Note: Never commit `.env` files to git. Only `.env.example` files should be committed.
+
+## Development
+
+### Available Scripts
 
 In the root directory, you can run:
 
@@ -98,11 +142,24 @@ This will:
 - Start the server using the compiled JavaScript
 - Serve the client build using Vite's preview server
 
-For actual deployment:
-- Replace the client preview server with a proper web server (nginx, Apache, etc.)
-- Run the server using a process manager (PM2, systemd, etc.)
-- Set appropriate environment variables for production
-- Configure proper security headers and CORS settings
+### Production Deployment Considerations
+
+1. Environment Configuration:
+   - Set up appropriate environment variables for production
+   - Never commit `.env` files to version control
+   - Use proper secrets management in production
+
+2. Server Setup:
+   - Replace the client preview server with a proper web server (nginx, Apache, etc.)
+   - Run the server using a process manager (PM2, systemd, etc.)
+   - Configure proper security headers and CORS settings
+   - Set up proper logging and monitoring
+
+3. Security:
+   - Configure CORS appropriately for your production domain
+   - Set up proper rate limiting
+   - Configure file upload limits
+   - Use HTTPS in production
 
 ## Testing
 
@@ -136,3 +193,17 @@ yarn test:coverage
 - For equal scores, earlier applications take precedence
 - Each vacancy has a hiring limit
 - 'X' marks are excluded from score calculations
+
+## Version Control
+
+### Git Ignore Rules
+The project includes specific rules for ignoring files:
+
+- Environment files (`.env`, `.env.local`, `.env.*.local`)
+- Build directories (`dist/`)
+- Dependencies (`node_modules/`)
+- Coverage reports (`coverage/`)
+- Editor-specific files
+- Log files
+
+Note: `.env.example` files are committed to provide templates for environment setup.
