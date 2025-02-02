@@ -1,17 +1,25 @@
 import { Request, Response } from "express";
+import { MatchEngineService } from "../serivces/match-engine.service";
 // import { vacancyService } from "../services/vacancy.service";
 // import { MatchResult } from "../types";
 
 export class CandidateMatcherController {
-  matchCandidates(req: Request, res: Response) {
-    try {
-      const { data } = req.body;
+  private matchEngineService;
 
-      if (!data) {
-        return res.status(400).json({ error: "No data provided" });
+  constructor() {
+    this.matchEngineService = new MatchEngineService();
+  }
+  match(req: Request, res: Response) {
+    try {
+      const { file } = req;
+
+      if (!file) {
+        return res.status(400).json({ error: "No file provided" });
       }
 
-      const results = { message: "This is a placeholder response" };
+      const dataString = file.buffer.toString("utf-8");
+
+      const results = this.matchEngineService.match(dataString);
 
       res.json({ results });
     } catch (error) {

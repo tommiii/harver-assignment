@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "workspaces": [
-    "client"
+    "client",
+    "server"
   ],
   "scripts": {
+    "dev": "concurrently \"yarn workspace client dev\" \"yarn workspace server dev\"",
     "clean": "rm -rf node_modules && rm -rf */node_modules && rm -rf */dist",
     "start": "yarn workspaces run dev",
     "lint": "yarn workspaces run lint",

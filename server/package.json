@@ -1,28 +1,28 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "dist/index.js",
-  "type": "module",
+  "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "tsx watch src/index.ts",
-    "build": "tsc",
-    "lint": "eslint . --ext .ts",
-    "lint:fix": "eslint . --ext .ts --fix"
+    "dev": "tsx watch src/index.ts",
+    "lint": "eslint ./src/**",
+    "lint:fix": "eslint ./src/** --fix"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "multer": "^1.4.5-lts.1",
+    "tsx": "^4.19.2"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
-    "@types/node": "^20.11.24",
+    "@types/multer": "^1.4.12",
+    "@types/node": "^22.13.0",
     "@typescript-eslint/eslint-plugin": "^8.22.0",
     "@typescript-eslint/parser": "^8.22.0",
-    "ts-node": "^10.9.2",
-    "tsx": "^4.19.2",
+    "ts-node-dev": "^2.0.0",
     "typescript": "^5.7.3"
   }
 }

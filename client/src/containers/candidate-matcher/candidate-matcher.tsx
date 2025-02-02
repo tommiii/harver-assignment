@@ -35,12 +35,12 @@ export const CandidateMatcher = () => {
         throw new Error("The file is empty");
       }
 
-      const response = await fetch("/api/match", {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+
+      const response = await fetch("http://localhost:3000/api/match-engine", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ data: fileContent }),
+        body: formData,
       });
 
       const contentType = response.headers.get("content-type");
@@ -69,7 +69,7 @@ export const CandidateMatcher = () => {
   }
 
   return (
-    <div id="root" className={styles.container}>
+    <div className={styles.container}>
       <div className={styles.wrapper}>
         <div className={styles.header}>
           <h1 className={styles.title}>Candidate Matcher</h1>
