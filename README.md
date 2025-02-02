@@ -20,6 +20,16 @@ Runs both the client and server in development mode concurrently.
 - Client: [http://localhost:5173](http://localhost:5173)
 - Server: [http://localhost:3000](http://localhost:3000)
 
+### `yarn build`
+Builds both client and server applications for production.
+- Client: Builds a static version of the React app
+- Server: Compiles TypeScript to JavaScript in the `dist` directory
+
+### `yarn start`
+Starts both applications in production mode after building.
+- Client: Serves the built static files using Vite's preview server
+- Server: Runs the compiled JavaScript from the dist directory
+
 ### `yarn clean`
 Removes all node_modules directories and build artifacts.
 
@@ -47,18 +57,52 @@ You can run commands for individual workspaces using the workspace prefix:
 
 ```bash
 # Client commands
-yarn workspace client dev
-yarn workspace client build
-yarn workspace client lint
-yarn workspace client type-check
+yarn workspace client dev            # Start development server
+yarn workspace client build          # Build for production
+yarn workspace client preview        # Serve the production build
+yarn workspace client lint           # Run ESLint
+yarn workspace client type-check     # Run type checking
 yarn workspace client test           # Run tests once
 yarn workspace client test:coverage  # Run tests with coverage report
 
 # Server commands
-yarn workspace server dev
-yarn workspace server test
-yarn workspace server type-check
+yarn workspace server start:dev      # Start server with hot-reload (development)
+yarn workspace server build          # Build TypeScript to JavaScript
+yarn workspace server start          # Start the production server
+yarn workspace server lint           # Run ESLint
+yarn workspace server lint:fix       # Fix auto-fixable ESLint issues
+yarn workspace server test           # Run tests once
+yarn workspace server test:watch     # Run tests in watch mode
+yarn workspace server type-check     # Run TypeScript type checking
 ```
+
+## Building and Running for Production
+
+To prepare and run the application for production:
+
+1. Build both applications:
+```bash
+yarn build
+```
+
+2. The build process will:
+   - Client: Create an optimized production build in `client/dist`
+   - Server: Compile TypeScript to JavaScript in `server/dist`
+
+3. Start both applications in production mode:
+```bash
+yarn start
+```
+
+This will:
+- Start the server using the compiled JavaScript
+- Serve the client build using Vite's preview server
+
+For actual deployment:
+- Replace the client preview server with a proper web server (nginx, Apache, etc.)
+- Run the server using a process manager (PM2, systemd, etc.)
+- Set appropriate environment variables for production
+- Configure proper security headers and CORS settings
 
 ## Testing
 

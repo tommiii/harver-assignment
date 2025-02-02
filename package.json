@@ -7,7 +7,9 @@
     "server"
   ],
   "scripts": {
-    "dev": "concurrently \"yarn workspace client dev\" \"yarn workspace server dev\"",
+    "dev": "concurrently \"yarn workspace client dev\" \"yarn workspace server start:dev\"",
+    "build": "yarn workspaces run build",
+    "start": "concurrently \"yarn workspace client preview\" \"yarn workspace server start\"",
     "clean": "rm -rf node_modules && rm -rf */node_modules && rm -rf */dist",
     "lint": "yarn workspaces run lint",
     "lint:fix": "yarn workspaces run lint --fix",
