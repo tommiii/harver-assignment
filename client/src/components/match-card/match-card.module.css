@@ -1,0 +1,63 @@
+.card {
+  @apply bg-white rounded-xl shadow-md p-6 transition-all hover:shadow-lg;
+}
+
+.header {
+  @apply flex justify-between items-center mb-6;
+}
+
+.title {
+  @apply text-xl font-semibold text-gray-800;
+}
+
+.hiringLimit {
+  @apply bg-blue-50 text-blue-700 px-4 py-2 rounded-lg font-medium;
+}
+
+.candidates {
+  @apply space-y-6;
+}
+
+.candidate {
+  @apply bg-gray-50 rounded-lg p-4;
+}
+
+.candidateHeader {
+  @apply flex justify-between items-center mb-4;
+}
+
+.candidateId {
+  @apply text-gray-700 font-medium;
+}
+
+.score {
+  @apply bg-green-50 text-green-700 px-4 py-2 rounded-lg font-medium;
+}
+
+.moduleScores {
+  @apply mt-4;
+}
+
+.moduleTitle {
+  @apply text-gray-700 font-medium mb-4;
+}
+
+.scoreGrid {
+  @apply grid grid-cols-2 md:grid-cols-3 gap-4;
+}
+
+.moduleScore {
+  @apply flex flex-col bg-white p-3 rounded-lg shadow-sm;
+}
+
+.moduleName {
+  @apply text-sm text-gray-600 mb-1;
+}
+
+.scoreValue {
+  @apply text-lg font-semibold text-gray-800;
+}
+
+.noScore {
+  @apply text-gray-400;
+}

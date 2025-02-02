@@ -1,0 +1,71 @@
+.container {
+  @apply min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8;
+}
+
+.wrapper {
+  @apply max-w-3xl mx-auto;
+}
+
+.header {
+  @apply text-center;
+}
+
+.title {
+  @apply text-3xl font-bold text-gray-900 mb-8;
+}
+
+.form {
+  @apply space-y-6;
+}
+
+.inputGroup {
+  @apply flex items-center justify-center gap-4;
+}
+
+.fileInputLabel {
+  @apply relative cursor-pointer bg-white rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none;
+}
+
+.srOnly {
+  @apply sr-only;
+}
+
+.fileInput {
+  @apply block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100;
+}
+
+.submitButton {
+  @apply inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:bg-gray-400 disabled:cursor-not-allowed;
+}
+
+.loadingIcon {
+  @apply animate-spin -ml-1 mr-3 h-5 w-5 text-white;
+}
+
+.errorContainer {
+  @apply rounded-md bg-red-50 p-4;
+}
+
+.errorContent {
+  @apply flex;
+}
+
+.errorIcon {
+  @apply flex-shrink-0;
+}
+
+.errorIconSvg {
+  @apply h-5 w-5 text-red-400;
+}
+
+.errorMessage {
+  @apply ml-3;
+}
+
+.errorText {
+  @apply text-sm font-medium text-red-800;
+}
+
+.matchesContainer {
+  @apply mt-8 space-y-6;
+}
