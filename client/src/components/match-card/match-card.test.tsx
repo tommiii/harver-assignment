@@ -46,7 +46,6 @@ describe('MatchCard', () => {
     const candidateElements = screen.getAllByText(/Candidate Id:/);
     expect(candidateElements).toHaveLength(2);
     
-    // Check that candidates are rendered in the correct order
     expect(candidateElements[0]).toHaveTextContent(mockMatch.candidates[0].id);
     expect(candidateElements[1]).toHaveTextContent(mockMatch.candidates[1].id);
   });
