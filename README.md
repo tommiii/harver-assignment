@@ -29,8 +29,11 @@ Runs linting for all workspaces.
 ### `yarn lint:fix`
 Runs linting and fixes auto-fixable issues for all workspaces.
 
+### `yarn type-check`
+Runs TypeScript type checking for all workspaces.
+
 ### `yarn validate`
-Runs all validation checks (currently runs lint).
+Runs all validation checks (linting and type checking).
 
 ## Individual Workspace Commands
 
@@ -40,8 +43,23 @@ You can run commands for individual workspaces using the workspace prefix:
 # Client commands
 yarn workspace client dev
 yarn workspace client test
+yarn workspace client type-check
 
 # Server commands
 yarn workspace server dev
 yarn workspace server test
+yarn workspace server type-check
 ```
+
+## Project Rules
+
+### Input Data
+- Module Scores: 0-100 with max 2 decimal places
+- IDs: Must be in ObjectId format
+- Hiring Limit: Must be below 1,000,000
+
+### Matching Logic
+- Candidates are matched based on their average module scores
+- For equal scores, earlier applications take precedence
+- Each vacancy has a hiring limit
+- 'X' marks are excluded from score calculations
