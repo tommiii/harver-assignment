@@ -1,10 +1,4 @@
-import {
-  MAX_DECIMAL_PLACES,
-  MAX_HIRING_LIMIT,
-  MAX_MODULE_SCORE,
-  MIN_MODULE_SCORE,
-  OBJECT_ID_REGEX,
-} from "../constants";
+import { MAX_HIRING_LIMIT, OBJECT_ID_REGEX } from "../constants";
 
 import { Vacancy } from "../types";
 
