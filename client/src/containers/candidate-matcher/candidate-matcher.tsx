@@ -1,11 +1,11 @@
 import React from "react";
 import { MatchCard } from "../../components/match-card/match-card";
-import { VacancyMatch } from "../../types";
 import styles from "./candidate-matcher.module.css";
+import { MatchOutput } from "../../types";
 
 export const CandidateMatcher = () => {
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
-  const [matches, setMatches] = React.useState<VacancyMatch[]>([]);
+  const [matches, setMatches] = React.useState<MatchOutput[]>([]);
   const [error, setError] = React.useState<string>("");
   const [isLoading, setIsLoading] = React.useState(false);
 

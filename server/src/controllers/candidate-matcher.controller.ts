@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
 import { MatchEngineService } from "../serivces/match-engine.service";
-// import { vacancyService } from "../services/vacancy.service";
-// import { MatchResult } from "../types";
 
 export class CandidateMatcherController {
   private matchEngineService;

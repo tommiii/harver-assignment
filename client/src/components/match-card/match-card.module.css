@@ -33,31 +33,3 @@
 .score {
   @apply bg-green-50 text-green-700 px-4 py-2 rounded-lg font-medium;
 }
-
-.moduleScores {
-  @apply mt-4;
-}
-
-.moduleTitle {
-  @apply text-gray-700 font-medium mb-4;
-}
-
-.scoreGrid {
-  @apply grid grid-cols-2 md:grid-cols-3 gap-4;
-}
-
-.moduleScore {
-  @apply flex flex-col bg-white p-3 rounded-lg shadow-sm;
-}
-
-.moduleName {
-  @apply text-sm text-gray-600 mb-1;
-}
-
-.scoreValue {
-  @apply text-lg font-semibold text-gray-800;
-}
-
-.noScore {
-  @apply text-gray-400;
-}

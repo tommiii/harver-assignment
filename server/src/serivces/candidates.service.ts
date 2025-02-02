@@ -40,8 +40,6 @@ export class CandidatesService {
       .split(",")
       .map((header) => header.trim());
 
-    console.log({ candidatesHeaders });
-
     if (candidatesHeaders.length < 2) {
       throw new Error(
         `Invalid Candidate header: length must be greater than 2`
@@ -63,24 +61,29 @@ export class CandidatesService {
       .filter((line) => line.trim());
     this.validateHeader(candidatesLines[0]);
 
-    const candidates = candidatesLines.slice(1).map((line) => {
+    const candidates = candidatesLines.slice(1).map((line, index) => {
       const [vacancyId, id, ...modules] = line
         .split(",")
         .map((field) => field.trim());
       this.validateId(vacancyId);
       this.validateId(id);
-      const moduleScores = modules.reduce((acc: number[], module): number[] => {
+      let validModuleLength = 0;
+      const validModuleScoresSum = modules.reduce((acc: number, module) => {
         this.validateModuleScore(module);
         if (module.toUpperCase() !== "X") {
-          acc.push(Math.ceil(parseFloat(module)));
+          validModuleLength = validModuleLength + 1;
+          return acc + parseFloat(module);
         }
         return acc;
-      }, []);
+      }, 0);
 
       return {
         id,
         vacancyId,
-        moduleScores,
+        averageModuleScores: Math.round(
+          validModuleScoresSum / validModuleLength
+        ),
+        applicationOrder: index++,
       };
     });
     return candidates;
