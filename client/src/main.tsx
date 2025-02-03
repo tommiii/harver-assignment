@@ -7,6 +7,13 @@ import { ErrorBoundary } from "react-error-boundary";
 import { ErrorInfo } from "react";
 import logger from "react-logger";
 
+logger.info({
+  message: "Application starting",
+  timestamp: new Date().toISOString(),
+  environment: import.meta.env.MODE,
+  apiUrl: import.meta.env.VITE_API_URL
+});
+
 const logError = (error: Error, info: ErrorInfo) => {
   logger.error({
     message: "React Error Boundary caught an error",
