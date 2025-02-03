@@ -2,9 +2,27 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import { CandidateMatcher } from "./containers/candidate-matcher/candidate-matcher";
+import { ErrorFallback } from "./components/error-fallback/error-fallback";
+import { ErrorBoundary } from "react-error-boundary";
+import { ErrorInfo } from "react";
+import logger from "react-logger";
+
+const logError = (error: Error, info: ErrorInfo) => {
+  logger.error({
+    message: "React Error Boundary caught an error",
+    error,
+    componentStack: info.componentStack || undefined,
+    timestamp: new Date().toISOString()
+  });
+};
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <CandidateMatcher />
+    <ErrorBoundary
+      FallbackComponent={ErrorFallback}
+      onError={logError}
+    >
+      <CandidateMatcher />
+    </ErrorBoundary>
   </StrictMode>
 );
