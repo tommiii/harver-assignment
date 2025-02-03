@@ -1,6 +1,5 @@
 import express, { Express, Request, Response } from "express";
 import cors from "cors";
-import 'express-async-errors';  // This enables async error handling
 import candidateMatcherRoute from "./routes/candidate-matcher.route";
 import config from "./config";
 import logger from "./utils/logger";
