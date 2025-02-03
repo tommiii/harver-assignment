@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint \"./src/**/*.{ts,tsx}\" --no-warn-ignored",
-    "lint:fix": "eslint \"./src/**/*.{ts,tsx}\" --fix --no-warn-ignored",
+    "lint": "eslint \"./src/**/*.{ts,tsx}\"",
+    "lint:fix": "eslint \"./src/**/*.{ts,tsx}\" --fix",
     "preview": "vite preview",
     "type-check": "tsc --noEmit",
     "test": "vitest --run",
