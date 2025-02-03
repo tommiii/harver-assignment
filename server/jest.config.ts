@@ -12,6 +12,9 @@ const config: Config.InitialOptions = {
   collectCoverage: true,
   coverageDirectory: 'coverage',
   coveragePathIgnorePatterns: ['/node_modules/'],
+  testEnvironmentOptions: {
+    NODE_ENV: 'test'
+  },
 };
 
 export default config; 

@@ -159,7 +159,7 @@ export const CandidateMatcher = () => {
                 disabled={isLoading}
                 className={styles.submitButton}
               >
-                Download Matches{" "}
+                Download Matches File
               </button>
             </div>
             {matches.map((match, index) => (
