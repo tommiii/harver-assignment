@@ -6,8 +6,6 @@ import { downloadFileFromString, getMatchString } from "../../utils";
 import config from "../../config";
 
 export const CandidateMatcher = () => {
-  throw new Error("This is a test error");
-
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
   const [matches, setMatches] = React.useState<MatchOutput[]>([]);
   const [error, setError] = React.useState<string>("");

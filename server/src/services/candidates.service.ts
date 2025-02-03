@@ -4,7 +4,7 @@ import {
   MIN_MODULE_SCORE,
   OBJECT_ID_REGEX,
 } from "../constants";
-import { Candidate } from "../types";
+import { Candidate } from "../models";
 import logger from "../utils/logger";
 import createError from 'http-errors';
 

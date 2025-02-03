@@ -1,5 +1,5 @@
 import { MAX_HIRING_LIMIT, OBJECT_ID_REGEX } from "../constants";
-import { Vacancy } from "../types";
+import { Vacancy } from "../models";
 import logger from "../utils/logger";
 import createError from 'http-errors';
 

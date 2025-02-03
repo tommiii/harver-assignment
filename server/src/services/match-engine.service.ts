@@ -1,4 +1,4 @@
-import { Candidate, MatchOutput, Vacancy } from "../types";
+import { Candidate, MatchOutput, Vacancy } from "../models";
 import { CandidatesService } from "./candidates.service";
 import { VacanciesService } from "./vacancies.service";
 import logger from "../utils/logger";
