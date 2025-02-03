@@ -62,6 +62,10 @@ Note: Never commit `.env` files to git. Only `.env.example` files should be comm
 
 In the root directory, you can run:
 
+### `yarn install`
+
+Install all the dependencies for both client and server.
+
 ### `yarn dev`
 
 Runs both the client and server in development mode concurrently.
