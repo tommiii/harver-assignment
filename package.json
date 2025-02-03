@@ -7,6 +7,7 @@
     "server"
   ],
   "scripts": {
+    "install": "concurrently \"yarn workspace client install\" \"yarn workspace server install\"",
     "dev": "concurrently \"yarn workspace client dev\" \"cd server && . .env && yarn start:dev\"",
     "build": "yarn workspaces run build",
     "start": "concurrently \"yarn workspace client preview\" \"yarn workspace server start\"",

@@ -1,14 +1,13 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "dist/index.js",
-  "type": "module",
+  "main": "dist/src/index.js",
   "license": "MIT",
   "scripts": {
     "start:dev": "tsx watch src/index.ts",
     "prebuild": "rm -rf dist",
     "build": "tsc -p tsconfig.json",
-    "start": "node dist/index.js",
+    "start": "node dist/src/index.js",
     "lint": "eslint ./src/**",
     "lint:fix": "eslint ./src/** --fix",
     "test": "jest --config jest.config.ts",

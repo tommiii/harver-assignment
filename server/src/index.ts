@@ -1,4 +1,3 @@
-import 'dotenv/config'
 import express, { Express, Request, Response } from "express";
 import cors from "cors";
 import candidateMatcherRoute from "./routes/candidate-matcher.route";
@@ -12,9 +11,11 @@ const app: Express = express();
 setupErrorHandling();
 
 // Middleware
-app.use(cors({
-  origin: config.cors.origin
-}));
+app.use(
+  cors({
+    origin: config.cors.origin,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -22,7 +23,6 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/health", (_req: Request, res: Response) => {
   res.status(200).json({ status: "ok", message: "Server is running" });
 });
-
 
 // Routes
 app.use("/api", candidateMatcherRoute);
@@ -35,10 +35,9 @@ app.listen(config.port, () => {
   logger.info(
     {
       port: config.port,
-      env: process.env.NODE_ENV || 'development',
-      cors: config.cors.origin
+      env: process.env.NODE_ENV || "development",
+      cors: config.cors.origin,
     },
     "Server started successfully"
   );
-
 });
