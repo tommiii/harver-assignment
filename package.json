@@ -7,7 +7,7 @@
     "server"
   ],
   "scripts": {
-    "dev": "concurrently \"yarn workspace client dev\" \"yarn workspace server start:dev\"",
+    "dev": "concurrently \"yarn workspace client dev\" \"cd server && . .env && yarn start:dev\"",
     "build": "yarn workspaces run build",
     "start": "concurrently \"yarn workspace client preview\" \"yarn workspace server start\"",
     "clean": "rm -rf node_modules && rm -rf */node_modules && rm -rf */dist",
