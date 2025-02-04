@@ -3,7 +3,8 @@ import { MatchCard } from "../../components/match-card/match-card";
 import styles from "./candidate-matcher.module.css";
 import { MatchOutput } from "../../types";
 import { downloadFileFromString, getMatchString } from "../../utils";
-import config from "../../config";
+import { api } from "../../api";
+
 
 export const CandidateMatcher = () => {
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
@@ -40,29 +41,8 @@ export const CandidateMatcher = () => {
       const formData = new FormData();
       formData.append("file", selectedFile);
 
-      const response = await fetch(`${config.apiUrl}/match-engine`, {
-        method: "POST",
-        body: formData,
-      });
-
-      const contentType = response.headers.get("content-type");
-      if (!response.ok) {
-        let errorMessage = "Failed to process file";
-        if (contentType?.includes("application/json")) {
-          const errorData = await response.json();
-          errorMessage = errorData.error || errorMessage;
-        } else {
-          errorMessage = await response.text();
-        }
-        throw new Error(errorMessage);
-      }
-
-      if (!contentType?.includes("application/json")) {
-        throw new Error("Invalid response format from server");
-      }
-
-      const data = await response.json();
-      setMatches(data.results);
+      const results = await api(formData);
+      setMatches(results);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
