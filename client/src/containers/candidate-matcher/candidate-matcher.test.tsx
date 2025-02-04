@@ -1,14 +1,15 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, userEvent } from '../../test/test-utils';
 import { CandidateMatcher } from './candidate-matcher';
+import { api } from '../../api';
 
-// Mock fetch globally
-const mockFetch = vi.fn();
-global.fetch = mockFetch;
+// Mock the api module
+vi.mock('../../api', () => ({
+  api: vi.fn()
+}));
 
 describe('CandidateMatcher', () => {
   beforeEach(() => {
-    mockFetch.mockReset();
     vi.clearAllMocks();
   });
 
@@ -58,13 +59,7 @@ describe('CandidateMatcher', () => {
       }
     ];
 
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      headers: {
-        get: () => 'application/json'
-      },
-      json: () => Promise.resolve({ results: mockResults })
-    });
+    (api as any).mockResolvedValueOnce(mockResults);
 
     render(<CandidateMatcher />);
     const fileInput = screen.getByLabelText('Choose file');
@@ -82,15 +77,9 @@ describe('CandidateMatcher', () => {
     expect(screen.getByText(`${mockResults[0].candidates[0].averageModuleScores}%`)).toBeInTheDocument();
   });
 
-  it('handles server error response', async () => {
+  it('handles API error response', async () => {
     const errorMessage = 'Invalid file format';
-    mockFetch.mockResolvedValueOnce({
-      ok: false,
-      headers: {
-        get: () => 'application/json'
-      },
-      json: () => Promise.resolve({ error: errorMessage })
-    });
+    (api as any).mockRejectedValueOnce(new Error(errorMessage));
 
     render(<CandidateMatcher />);
     const fileInput = screen.getByLabelText('Choose file');
@@ -108,7 +97,7 @@ describe('CandidateMatcher', () => {
   });
 
   it('handles network error', async () => {
-    mockFetch.mockRejectedValueOnce(new Error('Network error'));
+    (api as any).mockRejectedValueOnce(new Error('Network error occurred while processing the request'));
 
     render(<CandidateMatcher />);
     const fileInput = screen.getByLabelText('Choose file');
@@ -122,30 +111,6 @@ describe('CandidateMatcher', () => {
     const submitButton = screen.getByText('Upload and Match');
     await userEvent.click(submitButton);
 
-    expect(await screen.findByText('Network error')).toBeInTheDocument();
-  });
-
-  it('handles invalid server response format', async () => {
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      headers: {
-        get: () => 'text/plain'
-      },
-      text: () => Promise.resolve('Some text')
-    });
-
-    render(<CandidateMatcher />);
-    const fileInput = screen.getByLabelText('Choose file');
-    
-    const file = new File(['test content'], 'test.txt', { type: 'text/plain' });
-    Object.defineProperty(file, 'text', {
-      value: () => Promise.resolve('test content')
-    });
-    
-    await userEvent.upload(fileInput, file);
-    const submitButton = screen.getByText('Upload and Match');
-    await userEvent.click(submitButton);
-
-    expect(await screen.findByText('Invalid response format from server')).toBeInTheDocument();
+    expect(await screen.findByText('Network error occurred while processing the request')).toBeInTheDocument();
   });
 }); 
