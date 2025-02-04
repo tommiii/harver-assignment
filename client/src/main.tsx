@@ -23,9 +23,11 @@ const logError = (error: Error, info: ErrorInfo) => {
   });
 };
 
+const isDevelopment = import.meta.env.DEV;
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ErrorBoundary FallbackComponent={ErrorFallback} onError={logError}>
+    <ErrorBoundary FallbackComponent={(props) => <ErrorFallback {...props} isDevelopment={isDevelopment} />} onError={logError}>
       <CandidateMatcher />
     </ErrorBoundary>
   </StrictMode>

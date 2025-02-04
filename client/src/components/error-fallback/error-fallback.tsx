@@ -1,9 +1,11 @@
 import { FallbackProps } from 'react-error-boundary';
 import styles from './error-fallback.module.css';
 
-const isDevelopment = import.meta.env.DEV;
+interface ErrorFallbackProps extends FallbackProps {
+  isDevelopment?: boolean;
+}
 
-export const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
+export const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, isDevelopment = import.meta.env.DEV }) => {
   return (
     <div role="alert" className={styles.container}>
       <div className={styles.card}>
