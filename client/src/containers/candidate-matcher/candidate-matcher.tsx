@@ -5,7 +5,6 @@ import { MatchOutput } from "../../types";
 import { downloadFileFromString, getMatchString } from "../../utils";
 import { api } from "../../api";
 
-
 export const CandidateMatcher = () => {
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
   const [matches, setMatches] = React.useState<MatchOutput[]>([]);

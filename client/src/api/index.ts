@@ -2,7 +2,7 @@ import config from "../config";
 import { MatchOutput } from "../types";
 import logger from "react-logger";
 
-export const api = async (formData: FormData): Promise<MatchOutput[]> => {  
+export const api = async (formData: FormData): Promise<MatchOutput[]> => {
   try {
     logger.info({ message: "Starting API request to match-engine" });
     const response = await fetch(`${config.apiUrl}/match-engine`, {
@@ -19,7 +19,10 @@ export const api = async (formData: FormData): Promise<MatchOutput[]> => {
       } else {
         errorMessage = await response.text();
       }
-      logger.error({ message: "API request failed", error: new Error(errorMessage) });
+      logger.error({
+        message: "API request failed",
+        error: new Error(errorMessage),
+      });
       throw new Error(errorMessage);
     }
 
@@ -29,16 +32,18 @@ export const api = async (formData: FormData): Promise<MatchOutput[]> => {
       throw error;
     }
 
-    const data = await response.json();
     logger.info({ message: "API request completed successfully" });
-    return data.response;
+    const data = await response.json();
+    return data.results;
   } catch (error) {
     if (error instanceof Error) {
       logger.error({ message: "API request error", error });
       throw error;
     }
-    const networkError = new Error("Network error occurred while processing the request");
+    const networkError = new Error(
+      "Network error occurred while processing the request"
+    );
     logger.error({ message: "Network error", error: networkError });
     throw networkError;
   }
-}
+};
