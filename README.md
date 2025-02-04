@@ -22,17 +22,28 @@ A system that matches candidates to job vacancies based on their module scores a
 ## Prerequisites
 
 - Node.js (v22)
-- Yarn package manager
+- Yarn Classic (v1.22.x)
 
 ## Setup
 
-1. Install dependencies:
+1. Install Yarn Classic (v1):
+
+```bash
+npm install -g yarn@1.22.19
+```
+
+Verify the installation:
+```bash
+yarn --version  # Should show 1.22.x
+```
+
+2. Install dependencies:
 
 ```bash
 yarn install
 ```
 
-2. Set up environment variables:
+3. Set up environment variables:
 
 ```bash
 # In client directory
@@ -64,7 +75,10 @@ In the root directory, you can run:
 
 ### `yarn install`
 
-Install all the dependencies for both client and server.
+Install all the dependencies for both client and server. With Yarn Classic, this will:
+- Install dependencies for all workspaces
+- Generate a `yarn.lock` file for dependency resolution
+- Create necessary workspace symlinks
 
 ### `yarn dev`
 
@@ -117,7 +131,7 @@ Runs all code quality checks in sequence:
 
 ## Individual Workspace Commands
 
-You can run commands for individual workspaces using the workspace prefix:
+With Yarn Classic workspaces, you can run commands for individual workspaces using the workspace prefix:
 
 ```bash
 # Client commands
@@ -139,6 +153,29 @@ yarn workspace server lint:fix       # Fix auto-fixable ESLint issues
 yarn workspace server test           # Run tests once
 yarn workspace server test:watch     # Run tests in watch mode
 yarn workspace server type-check     # Run TypeScript type checking
+```
+
+## Yarn Classic Commands
+
+Useful Yarn Classic (v1) specific commands:
+
+```bash
+# Dependency management
+yarn add <package>                # Add a package to current workspace
+yarn remove <package>             # Remove a package from current workspace
+yarn upgrade                      # Upgrade all dependencies
+yarn upgrade <package>            # Upgrade specific package
+yarn upgrade-interactive         # Interactive upgrade of dependencies
+
+# Workspace management
+yarn workspaces info            # Show information about workspaces
+yarn workspace <name> <command> # Run a command in a specific workspace
+
+# Troubleshooting
+yarn why <package>              # Show why a package is installed
+yarn list                      # List installed packages
+yarn check                     # Verify package dependencies
+yarn cache clean              # Clean the global cache
 ```
 
 ## Building and Running for Production
@@ -166,3 +203,34 @@ This will:
 
 - Start the server using the compiled JavaScript
 - Serve the client build using Vite's preview server
+
+## Troubleshooting
+
+If you encounter any issues with dependencies:
+
+1. Clear Yarn's cache:
+```bash
+yarn cache clean
+```
+
+2. Remove node_modules and reinstall:
+```bash
+yarn clean
+yarn install
+```
+
+3. Check for dependency issues:
+```bash
+yarn check
+```
+
+4. If you see integrity check failures:
+```bash
+yarn install --force
+```
+
+5. For workspace-specific issues:
+```bash
+yarn workspace <workspace-name> clean
+yarn workspace <workspace-name> install
+```
