@@ -22,28 +22,17 @@ A system that matches candidates to job vacancies based on their module scores a
 ## Prerequisites
 
 - Node.js (v22)
-- Yarn Classic (v1.22.x)
+- Yarn (v1.22.x)
 
 ## Setup
 
-1. Install Yarn Classic (v1):
-
-```bash
-npm install -g yarn@1.22.19
-```
-
-Verify the installation:
-```bash
-yarn --version  # Should show 1.22.x
-```
-
-2. Install dependencies:
+1. Install dependencies:
 
 ```bash
 yarn install
 ```
 
-3. Set up environment variables:
+2. Set up environment variables:
 
 ```bash
 # In client directory
