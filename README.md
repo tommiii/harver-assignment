@@ -125,6 +125,7 @@ yarn workspace client dev            # Start development server
 yarn workspace client build          # Build for production
 yarn workspace client preview        # Serve the production build
 yarn workspace client lint           # Run ESLint
+yarn workspace client lint:fix       # Fix auto-fixable ESLint issues
 yarn workspace client type-check     # Run type checking
 yarn workspace client test           # Run tests once
 yarn workspace client test:coverage  # Run tests with coverage report
