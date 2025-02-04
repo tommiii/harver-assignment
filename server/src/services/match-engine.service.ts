@@ -90,14 +90,12 @@ export class MatchEngineService {
       throw new Error("Candidates data is empty or contains only whitespace");
     }
 
-    // Check for valid vacancy data format
     const vacancyLines = vacanciesDataString.trim().split('\n');
     if (vacancyLines.length < 2 || !vacancyLines[0].includes('Vacancy Id,Hiring Limit')) {
       logger.error("No vacancies found in the input data");
       throw new Error("No vacancies found in the input data");
     }
-
-    // Check for valid candidate data format
+    
     const candidateLines = candidateDataString.trim().split('\n');
     if (candidateLines.length < 2 || !candidateLines[0].includes('Vacancy Id,Candidate Id')) {
       logger.error("No candidates found in the input data");
