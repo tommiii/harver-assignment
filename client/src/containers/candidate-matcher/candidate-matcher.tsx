@@ -124,7 +124,7 @@ export const CandidateMatcher = () => {
               </label>
               <button
                 type="submit"
-                disabled={isLoading || !selectedFile}
+                disabled={isLoading}
                 className={styles.submitButton}
               >
                 {isLoading ? (
