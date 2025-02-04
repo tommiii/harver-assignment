@@ -1,20 +1,20 @@
-import { describe, expect, it, beforeEach } from '@jest/globals';
-import { MatchEngineService } from '../match-engine.service';
+import { describe, expect, it, beforeEach } from "@jest/globals";
+import { MatchEngineService } from "../match-engine.service";
 
-describe('MatchEngineService', () => {
+describe("MatchEngineService", () => {
   let service: MatchEngineService;
 
   beforeEach(() => {
     service = new MatchEngineService();
   });
 
-  describe('match', () => {
-    const validObjectId1 = '507f1f77bcf86cd799439011';
-    const validObjectId2 = '507f1f77bcf86cd799439012';
-    const validObjectId3 = '507f1f77bcf86cd799439013';
-    const validObjectId4 = '507f1f77bcf86cd799439014';
+  describe("match", () => {
+    const validObjectId1 = "507f1f77bcf86cd799439011";
+    const validObjectId2 = "507f1f77bcf86cd799439012";
+    const validObjectId3 = "507f1f77bcf86cd799439013";
+    const validObjectId4 = "507f1f77bcf86cd799439014";
 
-    it('should match candidates to vacancies based on average scores and application order', () => {
+    it("should match candidates to vacancies based on average scores and application order", () => {
       const testData = `Vacancy Id,Hiring Limit
 ${validObjectId1},2
 ${validObjectId2},1
@@ -48,8 +48,8 @@ ${validObjectId2},${validObjectId2},90,90`;
       expect(result[1].candidates[0].averageModuleScores).toBe(90);
     });
 
-    describe('application order priority', () => {
-      it('should prioritize earlier applications when scores are tied', () => {
+    describe("application order priority", () => {
+      it("should prioritize earlier applications when scores are tied", () => {
         const testData = `Vacancy Id,Hiring Limit
 ${validObjectId1},3
 =
@@ -70,7 +70,7 @@ ${validObjectId1},${validObjectId3},90,90`;
         expect(result[0].candidates[2].averageModuleScores).toBe(90);
       });
 
-      it('should respect hiring limit while maintaining application order for tied scores', () => {
+      it("should respect hiring limit while maintaining application order for tied scores", () => {
         const testData = `Vacancy Id,Hiring Limit
 ${validObjectId1},2
 =
@@ -88,7 +88,7 @@ ${validObjectId1},${validObjectId4},90,90`;
         expect(result[0].candidates[1].id).toBe(validObjectId4); // Second 90-score application
       });
 
-      it('should handle mixed scores with ties', () => {
+      it("should handle mixed scores with ties", () => {
         const testData = `Vacancy Id,Hiring Limit
 ${validObjectId1},4
 =
@@ -110,7 +110,7 @@ ${validObjectId1},${validObjectId4},90,90`;
       });
     });
 
-    it('should handle vacancies with no candidates', () => {
+    it("should handle vacancies with no candidates", () => {
       const testData = `Vacancy Id,Hiring Limit
 ${validObjectId1},1
 ${validObjectId2},1
@@ -125,7 +125,7 @@ ${validObjectId1},${validObjectId1},90,90`;
       expect(result[1].candidates).toHaveLength(0);
     });
 
-    it('should handle different numbers of modules', () => {
+    it("should handle different numbers of modules", () => {
       const testData = `Vacancy Id,Hiring Limit
 ${validObjectId1},2
 =
@@ -143,43 +143,64 @@ ${validObjectId1},${validObjectId2},85,85,X`;
     });
   });
 
-  describe('input validation', () => {
-    it('should throw error when input string is empty', () => {
-      expect(() => service.match('')).toThrow('Input data string is empty or undefined');
+  describe("input validation", () => {
+    it("should throw error when input string is empty", () => {
+      expect(() => service.match("")).toThrow(
+        "Input data string is empty or undefined"
+      );
     });
 
-    it('should throw error when input string is undefined', () => {
-      expect(() => service.match(undefined as any)).toThrow('Input data string is empty or undefined');
+    it("should throw error when input string is undefined", () => {
+      expect(() => service.match(undefined as unknown as string)).toThrow(
+        "Input data string is empty or undefined"
+      );
     });
 
-    it('should throw error when input string does not contain separator', () => {
-      expect(() => service.match('invalid input without separator')).toThrow('Invalid input format: missing separator \'=\'');
+    it("should throw error when input string does not contain separator", () => {
+      expect(() => service.match("invalid input without separator")).toThrow(
+        "Invalid input format: missing separator '='"
+      );
     });
 
-    it('should throw error when vacancies part is empty', () => {
-      expect(() => service.match('=some candidates')).toThrow('Vacancies data is empty or contains only whitespace');
+    it("should throw error when vacancies part is empty", () => {
+      expect(() => service.match("=some candidates")).toThrow(
+        "Vacancies data is empty or contains only whitespace"
+      );
     });
 
-    it('should throw error when candidates part is empty', () => {
-      expect(() => service.match('some vacancies=')).toThrow('Candidates data is empty or contains only whitespace');
+    it("should throw error when candidates part is empty", () => {
+      expect(() => service.match("some vacancies=")).toThrow(
+        "Candidates data is empty or contains only whitespace"
+      );
     });
 
-    it('should throw error when vacancies part contains only whitespace', () => {
-      expect(() => service.match('  \n  =some candidates')).toThrow('Vacancies data is empty or contains only whitespace');
+    it("should throw error when vacancies part contains only whitespace", () => {
+      expect(() => service.match("  \n  =some candidates")).toThrow(
+        "Vacancies data is empty or contains only whitespace"
+      );
     });
 
-    it('should throw error when candidates part contains only whitespace', () => {
-      expect(() => service.match('some vacancies=  \n  ')).toThrow('Candidates data is empty or contains only whitespace');
+    it("should throw error when candidates part contains only whitespace", () => {
+      expect(() => service.match("some vacancies=  \n  ")).toThrow(
+        "Candidates data is empty or contains only whitespace"
+      );
     });
 
-    it('should throw error when no vacancies are found after parsing', () => {
-      expect(() => service.match('Invalid Header\nSome Data\n=Vacancy Id,Candidate Id,Module 1\ndata,data,data')).toThrow('No vacancies found in the input data');
+    it("should throw error when no vacancies are found after parsing", () => {
+      expect(() =>
+        service.match(
+          "Invalid Header\nSome Data\n=Vacancy Id,Candidate Id,Module 1\ndata,data,data"
+        )
+      ).toThrow("No vacancies found in the input data");
     });
 
-    it('should throw error when no candidates are found after parsing', () => {
-      const validObjectId = '507f1f77bcf86cd799439011';
-      expect(() => service.match(`Vacancy Id,Hiring Limit\n${validObjectId},1\n=Invalid Header\nSome Data`))
-        .toThrow('No candidates found in the input data');
+    it("should throw error when no candidates are found after parsing", () => {
+      const validObjectId = "507f1f77bcf86cd799439011";
+      expect(() =>
+        service.match(
+          `Vacancy Id,Hiring Limit\n${validObjectId},1\n=Invalid Header\nSome Data`
+        )
+      ).toThrow("No candidates found in the input data");
     });
   });
-}); 
+});
