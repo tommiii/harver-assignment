@@ -67,16 +67,65 @@ export class MatchEngineService {
     return output;
   }
 
+  private validateAndSplitInput(dataString: string): { vacanciesDataString: string; candidateDataString: string } {
+    if (!dataString) {
+      logger.error("Input data string is empty or undefined");
+      throw new Error("Input data string is empty or undefined");
+    }
+
+    if (!dataString.includes("=")) {
+      logger.error("Invalid input format: missing separator '='");
+      throw new Error("Invalid input format: missing separator '='");
+    }
+
+    const [vacanciesDataString, candidateDataString] = dataString.split("=");
+
+    if (!vacanciesDataString?.trim()) {
+      logger.error("Vacancies data is empty or contains only whitespace");
+      throw new Error("Vacancies data is empty or contains only whitespace");
+    }
+
+    if (!candidateDataString?.trim()) {
+      logger.error("Candidates data is empty or contains only whitespace");
+      throw new Error("Candidates data is empty or contains only whitespace");
+    }
+
+    // Check for valid vacancy data format
+    const vacancyLines = vacanciesDataString.trim().split('\n');
+    if (vacancyLines.length < 2 || !vacancyLines[0].includes('Vacancy Id,Hiring Limit')) {
+      logger.error("No vacancies found in the input data");
+      throw new Error("No vacancies found in the input data");
+    }
+
+    // Check for valid candidate data format
+    const candidateLines = candidateDataString.trim().split('\n');
+    if (candidateLines.length < 2 || !candidateLines[0].includes('Vacancy Id,Candidate Id')) {
+      logger.error("No candidates found in the input data");
+      throw new Error("No candidates found in the input data");
+    }
+
+    return { vacanciesDataString, candidateDataString };
+  }
+
   public match(dataString: string) {
     logger.info("Starting match process");
     
-    const [vacanciesDataString, candidateDataString] = dataString.split("=");
-    logger.debug("Split input data into vacancies and candidates sections");
+    const { vacanciesDataString, candidateDataString } = this.validateAndSplitInput(dataString);
 
     const vacancies =
       this.vacanciesService.parserVacanciesFromString(vacanciesDataString);
     const candidates =
       this.candidatesService.parserCandidatesFromString(candidateDataString);
+
+    if (vacancies.length === 0) {
+      logger.error("No vacancies found in the input data");
+      throw new Error("No vacancies found in the input data");
+    }
+
+    if (candidates.length === 0) {
+      logger.error("No candidates found in the input data");
+      throw new Error("No candidates found in the input data");
+    }
 
     logger.debug(
       { 

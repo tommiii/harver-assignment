@@ -142,4 +142,44 @@ ${validObjectId1},${validObjectId2},85,85,X`;
       expect(result[0].candidates[1].averageModuleScores).toBe(85);
     });
   });
+
+  describe('input validation', () => {
+    it('should throw error when input string is empty', () => {
+      expect(() => service.match('')).toThrow('Input data string is empty or undefined');
+    });
+
+    it('should throw error when input string is undefined', () => {
+      expect(() => service.match(undefined as any)).toThrow('Input data string is empty or undefined');
+    });
+
+    it('should throw error when input string does not contain separator', () => {
+      expect(() => service.match('invalid input without separator')).toThrow('Invalid input format: missing separator \'=\'');
+    });
+
+    it('should throw error when vacancies part is empty', () => {
+      expect(() => service.match('=some candidates')).toThrow('Vacancies data is empty or contains only whitespace');
+    });
+
+    it('should throw error when candidates part is empty', () => {
+      expect(() => service.match('some vacancies=')).toThrow('Candidates data is empty or contains only whitespace');
+    });
+
+    it('should throw error when vacancies part contains only whitespace', () => {
+      expect(() => service.match('  \n  =some candidates')).toThrow('Vacancies data is empty or contains only whitespace');
+    });
+
+    it('should throw error when candidates part contains only whitespace', () => {
+      expect(() => service.match('some vacancies=  \n  ')).toThrow('Candidates data is empty or contains only whitespace');
+    });
+
+    it('should throw error when no vacancies are found after parsing', () => {
+      expect(() => service.match('Invalid Header\nSome Data\n=Vacancy Id,Candidate Id,Module 1\ndata,data,data')).toThrow('No vacancies found in the input data');
+    });
+
+    it('should throw error when no candidates are found after parsing', () => {
+      const validObjectId = '507f1f77bcf86cd799439011';
+      expect(() => service.match(`Vacancy Id,Hiring Limit\n${validObjectId},1\n=Invalid Header\nSome Data`))
+        .toThrow('No candidates found in the input data');
+    });
+  });
 }); 
