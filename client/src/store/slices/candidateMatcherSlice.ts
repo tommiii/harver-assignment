@@ -13,11 +13,18 @@ const initialState: CandidateMatcherState = {
   isLoading: false,
 };
 
+export interface FileUploadPayload {
+  content: string;
+  name: string;
+  type: string;
+  size: number;
+}
+
 export const candidateMatcherSlice = createSlice({
   name: 'candidateMatcher',
   initialState,
   reducers: {
-    uploadFileRequest: (state, action: PayloadAction<File>) => {
+    uploadFileRequest: (state, action: PayloadAction<FileUploadPayload>) => {
       state.isLoading = true;
       state.error = null;
       state.matches = [];

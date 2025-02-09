@@ -42,7 +42,18 @@ export const App = () => {
   );
 };
 
-createRoot(document.getElementById("root")!).render(
+// Get the container element
+const container = document.getElementById("root");
+
+if (!container) {
+  throw new Error("Root element not found");
+}
+
+// Create root only once
+const root = createRoot(container);
+
+// Render the app
+root.render(
   <StrictMode>
     <App />
   </StrictMode>

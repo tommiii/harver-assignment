@@ -10,6 +10,7 @@ import {
   uploadFileFailure,
   clearError,
   clearMatches,
+  FileUploadPayload,
 } from "../../store/slices/candidateMatcherSlice";
 
 const LoadingSpinner = () => (
@@ -70,13 +71,29 @@ export const CandidateMatcher = () => {
     dispatch(clearError());
   }, [dispatch]);
 
-  const handleSubmit = React.useCallback((event: React.FormEvent) => {
+  const handleSubmit = React.useCallback(async (event: React.FormEvent) => {
     event.preventDefault();
     if (!selectedFile) {
       dispatch(uploadFileFailure("Please select a file"));
       return;
     }
-    dispatch(uploadFileRequest(selectedFile));
+
+    try {
+      // Read the file content
+      const content = await selectedFile.text();
+      
+      // Prepare serializable file data
+      const fileData: FileUploadPayload = {
+        content,
+        name: selectedFile.name,
+        type: selectedFile.type,
+        size: selectedFile.size,
+      };
+
+      dispatch(uploadFileRequest(fileData));
+    } catch (error) {
+      dispatch(uploadFileFailure("Error reading file"));
+    }
   }, [dispatch, selectedFile]);
 
   const handleDownload = React.useCallback(() => {

@@ -5,27 +5,33 @@ import {
   uploadFileRequest,
   uploadFileSuccess,
   uploadFileFailure,
+  FileUploadPayload,
 } from '../slices/candidateMatcherSlice';
 import { MatchOutput } from '../../types';
 
-function* handleFileUpload(action: PayloadAction<File>) {
+function* handleFileUpload(action: PayloadAction<FileUploadPayload>) {
   try {
-    const file = action.payload;
+    const fileData = action.payload;
     
     // Validate file
-    if (!file.name.toLowerCase().endsWith('.txt')) {
+    if (!fileData.name.toLowerCase().endsWith('.txt')) {
       throw new Error('Please upload a valid .txt file');
     }
 
-    if (file.size === 0) {
+    if (fileData.size === 0) {
       throw new Error('The file is empty');
     }
 
-    // Read file content
-    const fileContent: string = yield call([file, 'text']);
-    if (!fileContent.trim()) {
+    if (!fileData.content.trim()) {
       throw new Error('The file is empty');
     }
+
+    // Create a new File object from the content
+    const file = new File(
+      [fileData.content],
+      fileData.name,
+      { type: fileData.type }
+    );
 
     // Prepare and send API request
     const formData = new FormData();
