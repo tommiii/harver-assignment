@@ -1,18 +1,8 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import "./index.css";
-import { CandidateMatcher } from "./containers/candidate-matcher/candidate-matcher";
-import { ErrorFallback } from "./components/error-fallback/error-fallback";
 import { ErrorBoundary } from "react-error-boundary";
+import { ErrorFallback } from "./components/error-fallback/error-fallback";
+import { CandidateMatcher } from "./containers/candidate-matcher/candidate-matcher";
 import { ErrorInfo } from "react";
 import logger from "react-logger";
-
-logger.info({
-  message: "Application starting",
-  timestamp: new Date().toISOString(),
-  environment: import.meta.env.MODE,
-  apiUrl: import.meta.env.VITE_API_URL,
-});
 
 const logError = (error: Error, info: ErrorInfo) => {
   logger.error({
@@ -37,9 +27,3 @@ export const App = () => {
     </ErrorBoundary>
   );
 };
-
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>
-);
