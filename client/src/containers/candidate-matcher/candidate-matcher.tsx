@@ -11,7 +11,7 @@ import {
   clearError,
   clearMatches,
   FileUploadPayload,
-} from "../../store/slices/candidateMatcherSlice";
+} from "../../store/slices/candidate-matcher-slice";
 
 const LoadingSpinner = () => (
   <svg
@@ -61,40 +61,50 @@ const ErrorMessage = ({ error }: { error: string }) => (
 
 export const CandidateMatcher = () => {
   const dispatch = useDispatch();
-  const { matches, error, isLoading } = useSelector((state: RootState) => state.candidateMatcher);
+  const { matches, error, isLoading } = useSelector(
+    (state: RootState) => state.candidateMatcher
+  );
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
 
-  const handleFileChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] || null;
-    setSelectedFile(file);
-    dispatch(clearMatches());
-    dispatch(clearError());
-  }, [dispatch]);
+  const handleFileChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0] || null;
+      setSelectedFile(file);
+      dispatch(clearMatches());
+      dispatch(clearError());
+    },
+    [dispatch]
+  );
 
-  const handleSubmit = React.useCallback(async (event: React.FormEvent) => {
-    event.preventDefault();
-    if (!selectedFile) {
-      dispatch(uploadFileFailure("Please select a file"));
-      return;
-    }
+  const handleSubmit = React.useCallback(
+    async (event: React.FormEvent) => {
+      event.preventDefault();
+      if (!selectedFile) {
+        dispatch(uploadFileFailure("Please select a file"));
+        return;
+      }
 
-    try {
-      // Read the file content
-      const content = await selectedFile.text();
-      
-      // Prepare serializable file data
-      const fileData: FileUploadPayload = {
-        content,
-        name: selectedFile.name,
-        type: selectedFile.type,
-        size: selectedFile.size,
-      };
+      try {
+        const content = await selectedFile.text();
 
-      dispatch(uploadFileRequest(fileData));
-    } catch (error) {
-      dispatch(uploadFileFailure("Error reading file"));
-    }
-  }, [dispatch, selectedFile]);
+        const fileData: FileUploadPayload = {
+          content,
+          name: selectedFile.name,
+          type: selectedFile.type,
+          size: selectedFile.size,
+        };
+
+        dispatch(uploadFileRequest(fileData));
+      } catch (error) {
+        dispatch(
+          uploadFileFailure(
+            error instanceof Error ? error.message : "Error reading file"
+          )
+        );
+      }
+    },
+    [dispatch, selectedFile]
+  );
 
   const handleDownload = React.useCallback(() => {
     const matchString = getMatchString(matches);
