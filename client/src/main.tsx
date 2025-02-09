@@ -6,7 +6,7 @@ import { CandidateMatcher } from "./containers/candidate-matcher/candidate-match
 import { ErrorFallback } from "./components/error-fallback/error-fallback";
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorInfo } from "react";
-import logger from "react-logger";
+import { logger } from "./utils/logger";
 import { store } from "./store/store";
 
 logger.info({
