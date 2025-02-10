@@ -1,6 +1,6 @@
 import config from "../config";
 import { MatchOutput } from "../types";
-import logger from "react-logger";
+import { logger } from "../utils/logger";
 
 export const api = async (formData: FormData): Promise<MatchOutput[]> => {
   try {

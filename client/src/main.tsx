@@ -5,7 +5,7 @@ import { CandidateMatcher } from "./containers/candidate-matcher/candidate-match
 import { ErrorFallback } from "./components/error-fallback/error-fallback";
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorInfo } from "react";
-import logger from "react-logger";
+import { logger } from "./utils/logger";
 
 logger.info({
   message: "Application starting",
@@ -27,7 +27,12 @@ const isDevelopment = import.meta.env.DEV;
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ErrorBoundary FallbackComponent={(props) => <ErrorFallback {...props} isDevelopment={isDevelopment} />} onError={logError}>
+    <ErrorBoundary
+      FallbackComponent={(props) => (
+        <ErrorFallback {...props} isDevelopment={isDevelopment} />
+      )}
+      onError={logError}
+    >
       <CandidateMatcher />
     </ErrorBoundary>
   </StrictMode>
