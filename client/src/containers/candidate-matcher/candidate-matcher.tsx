@@ -1,9 +1,17 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { MatchCard } from "../../components/match-card/match-card";
 import styles from "./candidate-matcher.module.css";
-import { MatchOutput } from "../../types";
 import { downloadFileFromString, getMatchString } from "../../utils";
-import { api } from "../../api";
+import { RootState } from "../../store/store";
+import { MatchOutput } from "../../types";
+import {
+  uploadFileRequest,
+  uploadFileFailure,
+  clearError,
+  clearMatches,
+  FileUploadPayload,
+} from "../../store/slices/candidate-matcher-slice";
 
 const LoadingSpinner = () => (
   <svg
@@ -52,53 +60,51 @@ const ErrorMessage = ({ error }: { error: string }) => (
 );
 
 export const CandidateMatcher = () => {
+  const dispatch = useDispatch();
+  const { matches, error, isLoading } = useSelector(
+    (state: RootState) => state.candidateMatcher
+  );
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
-  const [matches, setMatches] = React.useState<MatchOutput[]>([]);
-  const [error, setError] = React.useState<string>("");
-  const [isLoading, setIsLoading] = React.useState(false);
 
-  const handleFileChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedFile(e.target.files?.[0] || null);
-    setMatches([]);
-    setError("");
-  }, []);
+  const handleFileChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0] || null;
+      setSelectedFile(file);
+      dispatch(clearMatches());
+      dispatch(clearError());
+    },
+    [dispatch]
+  );
 
-  const handleSubmit = React.useCallback(async (event: React.FormEvent) => {
-    event.preventDefault();
-    if (!selectedFile) {
-      setError("Please select a file");
-      return;
-    }
-
-    if (!selectedFile.name.toLowerCase().endsWith(".txt")) {
-      setError("Please upload a valid .txt file");
-      return;
-    }
-
-    if (selectedFile.size === 0) {
-      setError("The file is empty");
-      return;
-    }
-
-    setIsLoading(true);
-    setError("");
-
-    try {
-      const fileContent = await selectedFile.text();
-      if (!fileContent.trim()) {
-        throw new Error("The file is empty");
+  const handleSubmit = React.useCallback(
+    async (event: React.FormEvent) => {
+      event.preventDefault();
+      if (!selectedFile) {
+        dispatch(uploadFileFailure("Please select a file"));
+        return;
       }
 
-      const formData = new FormData();
-      formData.append("file", selectedFile);
-      const results = await api(formData);
-      setMatches(results);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
-    } finally {
-      setIsLoading(false);
-    }
-  }, [selectedFile]);
+      try {
+        const content = await selectedFile.text();
+
+        const fileData: FileUploadPayload = {
+          content,
+          name: selectedFile.name,
+          type: selectedFile.type,
+          size: selectedFile.size,
+        };
+
+        dispatch(uploadFileRequest(fileData));
+      } catch (error) {
+        dispatch(
+          uploadFileFailure(
+            error instanceof Error ? error.message : "Error reading file"
+          )
+        );
+      }
+    },
+    [dispatch, selectedFile]
+  );
 
   const handleDownload = React.useCallback(() => {
     const matchString = getMatchString(matches);
@@ -154,7 +160,7 @@ export const CandidateMatcher = () => {
                 Download Matches File (.txt)
               </button>
             </div>
-            {matches.map((match, index) => (
+            {matches.map((match: MatchOutput, index: number) => (
               <MatchCard key={index} match={match} />
             ))}
           </div>
